@@ -28,7 +28,7 @@ func main() {
 	flag.Parse()
 
 	if *versionInfo {
-		//fmt.Printf("-- {{ env "TEMP_ORG" }} %s --\n", appName)
+		fmt.Printf("-- {{ env "TEMP_ORG" }} %s --\n", appName)
 		version.PrintFull()
 	}
 	runtime.GOMAXPROCS(*maxprocs)
