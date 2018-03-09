@@ -7,15 +7,16 @@ import (
 	"path/filepath"
 	"regexp"
 
-	"github.com/alecthomas/template"
+	"html/template"
 )
 
 var (
-	targetDir = flag.String("targetDir", "", "absolute path where the result should be put")
+	targetDir = flag.String("targetDir", ".", "path where the result should be put")
 )
 
 func main() {
-	err := filepath.Walk("./template/files", walkFunc)
+	flag.Parse()
+	err := filepath.Walk("./files", walkFunc)
 	if err != nil {
 		panic(err)
 	}
@@ -35,7 +36,7 @@ func walkFunc(path string, info os.FileInfo, err error) error {
 	if err != nil {
 		return err
 	}
-	regex := regexp.MustCompile(".*template/files")
+	regex := regexp.MustCompile(".*files")
 	path = regex.ReplaceAllString(path, *targetDir)
 	//path = strings.Replace(path, "template/files/", "", -1)
 	err = os.MkdirAll(filepath.Dir(path), 0755)
@@ -61,7 +62,7 @@ func env(val interface{}) (interface{}, error) {
 	}
 	value, ok := os.LookupEnv(val.(string))
 	if !ok {
-		return nil, fmt.Errorf("var not defined", val)
+		return nil, fmt.Errorf("val(%v) not defined", val)
 	}
 	return value, nil
 }
