@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"regexp"
 
-	"html/template"
+	"text/template"
 )
 
 var (
